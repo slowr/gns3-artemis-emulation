@@ -1,0 +1,15 @@
+{
+  "project":{
+    "name":"master"
+  },
+  "as-links":{
+    "AS1-AS2":{
+      "backup":"no",
+      "rel":"c2p"
+    }
+  },
+  "as-nodes":[
+    "AS1",
+    "AS2"
+  ]
+}

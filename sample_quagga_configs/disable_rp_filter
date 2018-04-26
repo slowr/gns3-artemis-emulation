@@ -1,0 +1,7 @@
+#!/bin/sh
+
+for i in /proc/sys/net/ipv4/conf/*/rp_filter; do
+    echo 0 > "$i"
+done
+echo 0 > /proc/sys/net/ipv4/conf/all/rp_filter
+
