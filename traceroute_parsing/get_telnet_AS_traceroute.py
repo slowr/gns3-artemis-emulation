@@ -9,7 +9,7 @@ import time
 
 
 def main():
-    parser = argparse.ArgumentParser(description="execute and parse traceroute on gns3 node")
+    parser = argparse.ArgumentParser(description='execute and parse traceroute on gns3 node')
     parser.add_argument('-ti', '--tip', dest='tip', type=str, help='telnet IP address', required=True)
     parser.add_argument('-tp', '--tpgort', dest='tport', type=int, help='telnet port')
     parser.add_argument('-d', '--dest', dest='dest', type=str, help='traceroute destination')

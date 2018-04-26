@@ -8,7 +8,7 @@ USER = 'gns3'
 PASS = 'gns3'
 
 def main():
-    parser = argparse.ArgumentParser(description="copy file to remote server")
+    parser = argparse.ArgumentParser(description='copy file to remote server')
     parser.add_argument('-f', '--file', dest='local_file', type=str, help='file to copy', required=True)
     parser.add_argument('-i', '--ip', dest='server_ip', type=str, help='ip of remote server', default='172.16.42.128')
     parser.add_argument('-p', '--path', dest='server_path', type=str, help='file path of remote server', required=True)

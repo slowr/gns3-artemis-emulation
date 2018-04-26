@@ -1,5 +1,5 @@
 #!/bin/sh
 
-echo 0 > "/proc/sys/net/ipv4/conf/$IFACE/rp_filter"
-echo 0 > "/proc/sys/net/ipv4/conf/all/rp_filter"
-echo 0 > "/proc/sys/net/ipv4/conf/default/rp_filter"
+echo 0 > '/proc/sys/net/ipv4/conf/$IFACE/rp_filter'
+echo 0 > '/proc/sys/net/ipv4/conf/all/rp_filter'
+echo 0 > '/proc/sys/net/ipv4/conf/default/rp_filter'

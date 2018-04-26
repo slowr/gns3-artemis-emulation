@@ -7,7 +7,7 @@ import re
 
 
 def main():
-    parser = argparse.ArgumentParser(description="form GSN3 docker node iface configs")
+    parser = argparse.ArgumentParser(description='form GSN3 docker node iface configs')
     parser.add_argument('-i', '--input', dest='input_topo_file', type=str, help='file with input GNS3 topology description', required=True)
     parser.add_argument('-o', '--output', dest='output_iface_configs', type=str, help='directory with output iface configs', default='./sample_iface_configs')
     args = parser.parse_args()
@@ -20,7 +20,7 @@ def main():
 
     intf_config = {}
     for node in sorted(json_topo['gns3-nodes']):
-        intf_config[node] = ""
+        intf_config[node] = ''
 
     for link in sorted(json_topo['gns3-links']):
         r = re.match('^(\S+)(\d+):(\d+)-(\S+)(\d+):(\d+)$', link)
@@ -37,40 +37,40 @@ def main():
             dst_iface = 'eth{}'.format(dst_anum)
 
             # set src node
-            intf_config[src_node] += "\nauto {}\n".format(src_iface)
-            intf_config[src_node] += "iface {} inet static\n".format(src_iface)
-            if src_node_type == "H":
-                intf_config[src_node] += "\taddress 10.{}.0.100\n".format(src_node_num)
-                intf_config[src_node] += "\tnetmask 255.255.255.0\n"
-                intf_config[src_node] += "\tgateway 10.{}.0.1\n".format(src_node_num)
-            elif src_node_type == "R" and dst_node_type == "H":
-                intf_config[src_node] += "\taddress 10.{}.0.1\n".format(src_node_num)
-                intf_config[src_node] += "\tnetmask 255.255.255.0\n"
-            elif src_node_type == "R" and dst_node_type == "R":
-                intf_config[src_node] += "\taddress 10.{}.{}.".format(min(src_node_num, dst_node_num), max(src_node_num, dst_node_num))
+            intf_config[src_node] += '\nauto {}\n'.format(src_iface)
+            intf_config[src_node] += 'iface {} inet static\n'.format(src_iface)
+            if src_node_type == 'H':
+                intf_config[src_node] += '\taddress 10.{}.0.100\n'.format(src_node_num)
+                intf_config[src_node] += '\tnetmask 255.255.255.0\n'
+                intf_config[src_node] += '\tgateway 10.{}.0.1\n'.format(src_node_num)
+            elif src_node_type == 'R' and dst_node_type == 'H':
+                intf_config[src_node] += '\taddress 10.{}.0.1\n'.format(src_node_num)
+                intf_config[src_node] += '\tnetmask 255.255.255.0\n'
+            elif src_node_type == 'R' and dst_node_type == 'R':
+                intf_config[src_node] += '\taddress 10.{}.{}.'.format(min(src_node_num, dst_node_num), max(src_node_num, dst_node_num))
                 if src_node_num < dst_node_num:
-                    intf_config[src_node] += "1\n"
+                    intf_config[src_node] += '1\n'
                 else:
-                    intf_config[src_node] += "2\n"
-                intf_config[src_node] += "\tnetmask 255.255.255.252\n"
+                    intf_config[src_node] += '2\n'
+                intf_config[src_node] += '\tnetmask 255.255.255.252\n'
 
             # set dst node
-            intf_config[dst_node] += "\nauto {}\n".format(dst_iface)
-            intf_config[dst_node] += "iface {} inet static\n".format(dst_iface)
-            if dst_node_type == "H":
-                intf_config[dst_node] += "\taddress 10.{}.0.100\n".format(dst_node_num)
-                intf_config[dst_node] += "\tnetmask 255.255.255.0\n"
-                intf_config[dst_node] += "\tgateway 10.{}.0.1\n".format(dst_node_num)
-            elif dst_node_type == "R" and src_node_type == "H":
-                intf_config[dst_node] += "\taddress 10.{}.0.1\n".format(dst_node_num)
-                intf_config[dst_node] += "\tnetmask 255.255.255.0\n"
-            elif dst_node_type == "R" and src_node_type == "R":
-                intf_config[dst_node] += "\taddress 10.{}.{}.".format(min(src_node_num, dst_node_num), max(src_node_num, dst_node_num))
+            intf_config[dst_node] += '\nauto {}\n'.format(dst_iface)
+            intf_config[dst_node] += 'iface {} inet static\n'.format(dst_iface)
+            if dst_node_type == 'H':
+                intf_config[dst_node] += '\taddress 10.{}.0.100\n'.format(dst_node_num)
+                intf_config[dst_node] += '\tnetmask 255.255.255.0\n'
+                intf_config[dst_node] += '\tgateway 10.{}.0.1\n'.format(dst_node_num)
+            elif dst_node_type == 'R' and src_node_type == 'H':
+                intf_config[dst_node] += '\taddress 10.{}.0.1\n'.format(dst_node_num)
+                intf_config[dst_node] += '\tnetmask 255.255.255.0\n'
+            elif dst_node_type == 'R' and src_node_type == 'R':
+                intf_config[dst_node] += '\taddress 10.{}.{}.'.format(min(src_node_num, dst_node_num), max(src_node_num, dst_node_num))
                 if src_node_num > dst_node_num:
-                    intf_config[dst_node] += "1\n"
+                    intf_config[dst_node] += '1\n'
                 else:
-                    intf_config[dst_node] += "2\n"
-                intf_config[dst_node] += "\tnetmask 255.255.255.252\n"
+                    intf_config[dst_node] += '2\n'
+                intf_config[dst_node] += '\tnetmask 255.255.255.252\n'
 
     for node in sorted(intf_config):
         with open('{}/{}_intf.cfg'.format(args.output_iface_configs, node), 'w') as f:

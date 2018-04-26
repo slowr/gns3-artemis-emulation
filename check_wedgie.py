@@ -27,7 +27,7 @@ def extract_as_link_routers(json_topo, src_as, dst_as):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="create a GNS3 multi-domain topology with policies")
+    parser = argparse.ArgumentParser(description='create a GNS3 multi-domain topology with policies')
     parser.add_argument('-i', '--input', dest='input_topo_file', type=str, help='file with GNS3 topology description', required=True)
     parser.add_argument('-c', '--conv_time', dest='conv_time', type=int, help='number of minutes to wait for BGP convergence', default=1)
     args = parser.parse_args()
@@ -42,7 +42,7 @@ def main():
             (src_router, dst_router) = extract_as_link_routers(json_topo, src_as, dst_as)
             subprocess.call([PY3_BIN, CONTROL_LINK_PY, '-i', args.input_topo_file, '-s', src_router, '-d', dst_router])
 
-    print("Waiting for {} minutes for BGP to converge...".format(args.conv_time))
+    print('Waiting for {} minutes for BGP to converge...'.format(args.conv_time))
     time.sleep(60*int(args.conv_time))
 
     print('Reactivating all backup links...')
@@ -52,10 +52,10 @@ def main():
             (src_router, dst_router) = extract_as_link_routers(json_topo, src_as, dst_as)
             subprocess.call([PY3_BIN, CONTROL_LINK_PY, '-i', args.input_topo_file, '-s', src_router, '-d', dst_router, '-a'])
 
-    print("Waiting for {} minutes for BGP to converge...".format(args.conv_time))
+    print('Waiting for {} minutes for BGP to converge...'.format(args.conv_time))
     time.sleep(60*int(args.conv_time))
 
-    print("Checking that routing from backups happens over primaries only...")
+    print('Checking that routing from backups happens over primaries only...')
     backups = {}
     primaries = {}
 
@@ -105,7 +105,7 @@ def main():
             (asn_router, prim_router) = extract_as_link_routers(json_topo, asn, primary)
             subprocess.call([PY3_BIN, CONTROL_LINK_PY, '-i', args.input_topo_file, '-s', asn_router, '-d', prim_router])
 
-    print("Waiting for {} minutes for BGP to converge...".format(args.conv_time))
+    print('Waiting for {} minutes for BGP to converge...'.format(args.conv_time))
     time.sleep(60*int(args.conv_time))
 
     print('Reactivating all primary links...')
@@ -114,10 +114,10 @@ def main():
             (asn_router, prim_router) = extract_as_link_routers(json_topo, asn, primary)
             subprocess.call([PY3_BIN, CONTROL_LINK_PY, '-i', args.input_topo_file, '-s', asn_router, '-d', prim_router, '-a'])
 
-    print("Waiting for {} minutes for BGP to converge...".format(args.conv_time))
+    print('Waiting for {} minutes for BGP to converge...'.format(args.conv_time))
     time.sleep(60*int(args.conv_time))
 
-    print("Checking for wedgies...")
+    print('Checking for wedgies...')
     wedgies = {}
     for asn in backups:
         for backup in backups[asn]:
@@ -146,7 +146,7 @@ def main():
 
             os.remove(trace_dump_file)
 
-    print("Following wedgies were detected!")
+    print('Following wedgies were detected!')
     pp(wedgies)
 
 
