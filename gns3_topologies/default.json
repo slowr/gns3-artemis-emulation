@@ -3,6 +3,14 @@
     "AS1-AS2":{
       "backup":"no",
       "rel":"c2p"
+    },
+    "AS2-AS3":{
+      "backup":"no",
+      "rel":"c2p"
+    },
+    "AS3-AS4":{
+      "backup":"no",
+      "rel":"c2p"
     }
   },
   "project":{
@@ -16,6 +24,14 @@
     "AS1":{
       "SDN":true,
       "EXA":true
+    },
+    "AS3":{
+      "SDN":true,
+      "EXA":true
+    },
+    "AS4":{
+      "SDN":false,
+      "EXA":false
     }
   }
 }
