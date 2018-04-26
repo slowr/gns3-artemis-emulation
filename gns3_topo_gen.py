@@ -166,7 +166,7 @@ def main():
     if 'gns3-nodes' not in json_topo:
         json_topo['gns3-nodes'] = {}
 
-    for node in sorted(json_topo['as-nodes']):
+    for node in sorted(json_topo['as-nodes'].keys()):
         node_num = node.split('AS')[1]
 
         # create host
@@ -184,10 +184,42 @@ def main():
         print('\t Creating {}...'.format(as_router_name))
         if as_router_name not in json_topo['gns3-nodes']:
             json_topo = create_docker_node(
-                json_topo, name=as_router_name, image='ajnouri/quagga_alpine', adapters=5)
+                json_topo, name=as_router_name, image='ajnouri/quagga_alpine', adapters=2)
             with open(args.input_topo_file, 'w') as f:
                 ujson.dump(json_topo, f, indent=2)
         print('\t {} created!'.format(as_router_name))
+
+        if json_topo['as-nodes'][node]['SDN'] is True:
+            # create OVS
+            as_ovs_name = 'OVS{}'.format(node_num)
+            print('\t Creating {}...'.format(as_ovs_name))
+            if as_ovs_name not in json_topo['gns3-nodes']:
+                json_topo = create_docker_node(
+                    json_topo, name=as_ovs_name, image='gns3/openvswitch', adapters=6)
+                with open(args.input_topo_file, 'w') as f:
+                    ujson.dump(json_topo, f, indent=2)
+            print('\t {} created!'.format(as_ovs_name))
+
+            # create ONOS
+            as_onos_name = 'ONOS{}'.format(node_num)
+            print('\t Creating {}...'.format(as_onos_name))
+            if as_onos_name not in json_topo['gns3-nodes']:
+                json_topo = create_docker_node(
+                    json_topo, name=as_onos_name, image='mavromat/onos-artemis', adapters=3)
+                with open(args.input_topo_file, 'w') as f:
+                    ujson.dump(json_topo, f, indent=2)
+            print('\t {} created!'.format(as_onos_name))
+
+        if json_topo['as-nodes'][node]['EXA'] is True:
+            # create ExaBGP Monitor
+            as_exa_name = 'EXA{}'.format(node_num)
+            print('\t Creating {}...'.format(as_exa_name))
+            if as_exa_name not in json_topo['gns3-nodes']:
+                json_topo = create_docker_node(
+                    json_topo, name=as_exa_name, image='mavromat/exabgp-monitor', adapters=2)
+                with open(args.input_topo_file, 'w') as f:
+                    ujson.dump(json_topo, f, indent=2)
+            print('\t {} created!'.format(as_exa_name))
 
     print('All GNS3 nodes created!')
 
@@ -201,108 +233,113 @@ def main():
     for node in json_topo['gns3-nodes']:
         next_av_adapter[node] = 0
 
-    # Connecting AS hosts with AS routers (internal)
-    for node in sorted(json_topo['as-nodes']):
+    # Connecting AS hosts with OVS switches (internal)
+    for node in sorted(json_topo['as-nodes'].keys()):
         node_num = node.split('AS')[1]
         as_host_name = 'H{}'.format(node_num)
-        as_router_name = 'R{}'.format(node_num)
+
+        if json_topo['as-nodes'][node]['SDN'] is True:
+            as_ovs_name = 'OVS{}'.format(node_num)
+        else:
+            as_conn_name = 'R{}'.format(node_num)
+
         link_name = '{}:{}-{}:{}'.format(as_host_name,
                                          next_av_adapter[as_host_name],
-                                         as_router_name,
-                                         next_av_adapter[as_router_name])
+                                         as_ovs_name,
+                                         next_av_adapter[as_ovs_name])
         print('\t Connecting {}:{} with {}:{}...'.format(as_host_name,
                                                          next_av_adapter[as_host_name],
-                                                         as_router_name,
-                                                         next_av_adapter[as_router_name]))
+                                                         as_ovs_name,
+                                                         next_av_adapter[as_ovs_name]))
         if link_name not in json_topo['gns3-links']:
             json_topo = create_docker_link(json_topo,
                                            src_hname=as_host_name,
                                            src_anum=next_av_adapter[as_host_name],
-                                           dst_hname=as_router_name,
-                                           dst_anum=next_av_adapter[as_router_name])
+                                           dst_hname=as_ovs_name,
+                                           dst_anum=next_av_adapter[as_ovs_name])
             with open(args.input_topo_file, 'w') as f:
                 ujson.dump(json_topo, f, indent=2)
         print('\t {}:{} with {}:{} connected!'.format(as_host_name,
                                                       next_av_adapter[as_host_name],
-                                                      as_router_name,
-                                                      next_av_adapter[as_router_name]))
+                                                      as_ovs_name,
+                                                      next_av_adapter[as_ovs_name]))
         next_av_adapter[as_host_name] += 1
-        next_av_adapter[as_router_name] += 1
+        next_av_adapter[as_ovs_name] += 1
 
     # Connecting AS routers with other AS routers (external)
-    for link in sorted(json_topo['as-links']):
-        (src_as, dst_as) = link.split('-')
-        src_as_num = src_as.split('AS')[1]
-        dst_as_num = dst_as.split('AS')[1]
-        src_router_name = 'R{}'.format(src_as_num)
-        dst_router_name = 'R{}'.format(dst_as_num)
-        link_name = '{}:{}-{}:{}'.format(src_router_name,
-                                         next_av_adapter[src_router_name],
-                                         dst_router_name,
-                                         next_av_adapter[dst_router_name])
-        print('\t Connecting {}:{} with {}:{}...'.format(src_router_name,
-                                                         next_av_adapter[src_router_name],
-                                                         dst_router_name,
-                                                         next_av_adapter[dst_router_name]))
-        if link_name not in json_topo['gns3-links']:
-            json_topo = create_docker_link(json_topo,
-                                           src_hname=src_router_name,
-                                           src_anum=next_av_adapter[src_router_name],
-                                           dst_hname=dst_router_name,
-                                           dst_anum=next_av_adapter[dst_router_name])
-            with open(args.input_topo_file, 'w') as f:
-                ujson.dump(json_topo, f, indent=2)
-        print('\t {}:{} with {}:{} connected!'.format(src_router_name,
-                                                      next_av_adapter[src_router_name],
-                                                      dst_router_name,
-                                                      next_av_adapter[dst_router_name]))
-        next_av_adapter[src_router_name] += 1
-        next_av_adapter[dst_router_name] += 1
+    # for link in sorted(json_topo['as-links']):
+    #     (src_as, dst_as) = link.split('-')
+    #     src_as_num = src_as.split('AS')[1]
+    #     dst_as_num = dst_as.split('AS')[1]
+    #     src_router_name = 'R{}'.format(src_as_num)
+    #     dst_router_name = 'R{}'.format(dst_as_num)
+    #     link_name = '{}:{}-{}:{}'.format(src_router_name,
+    #                                      next_av_adapter[src_router_name],
+    #                                      dst_router_name,
+    #                                      next_av_adapter[dst_router_name])
+    #     print('\t Connecting {}:{} with {}:{}...'.format(src_router_name,
+    #                                                      next_av_adapter[src_router_name],
+    #                                                      dst_router_name,
+    #                                                      next_av_adapter[dst_router_name]))
+    #     if link_name not in json_topo['gns3-links']:
+    #         json_topo = create_docker_link(json_topo,
+    #                                        src_hname=src_router_name,
+    #                                        src_anum=next_av_adapter[src_router_name],
+    #                                        dst_hname=dst_router_name,
+    #                                        dst_anum=next_av_adapter[dst_router_name])
+    #         with open(args.input_topo_file, 'w') as f:
+    #             ujson.dump(json_topo, f, indent=2)
+    #     print('\t {}:{} with {}:{} connected!'.format(src_router_name,
+    #                                                   next_av_adapter[src_router_name],
+    #                                                   dst_router_name,
+    #                                                   next_av_adapter[dst_router_name]))
+    #     next_av_adapter[src_router_name] += 1
+    #     next_av_adapter[dst_router_name] += 1
 
-    print('All GNS3 links created!')
+    # print('All GNS3 links created!')
 
-    print('Configuring the network interfaces of GNS3 nodes...')
-    subprocess.call([PY3_BIN, IFACE_PY, '-i',
-                     args.input_topo_file, '-o', DEFAULT_IFACE_CONFIGS_DIR])
-    for node in json_topo['gns3-nodes']:
-        cfg_file = '{}/{}_intf.cfg'.format(DEFAULT_IFACE_CONFIGS_DIR, node)
-        dest_file_path = '/opt/gns3/projects/{}/project-files/docker/{}/etc/network/interfaces'.format(
-            json_topo['project']['project_id'],
-            json_topo['gns3-nodes'][node]['node_id'])
-        subprocess.call([PY3_BIN, CP_PY, '-f', cfg_file, '-i',
-                         args.vm_ip, '-p', dest_file_path])
-    print('All interfaces of all GNS3 nodes configured!')
+    # print('Configuring the network interfaces of GNS3 nodes...')
+    # subprocess.call([PY3_BIN, IFACE_PY, '-i',
+    #                  args.input_topo_file, '-o', DEFAULT_IFACE_CONFIGS_DIR])
+    # for node in json_topo['gns3-nodes']:
+    #     cfg_file = '{}/{}_intf.cfg'.format(DEFAULT_IFACE_CONFIGS_DIR, node)
+    #     dest_file_path = '/opt/gns3/projects/{}/project-files/docker/{}/etc/network/interfaces'.format(
+    #         json_topo['project']['project_id'],
+    #         json_topo['gns3-nodes'][node]['node_id'])
+    #     subprocess.call([PY3_BIN, CP_PY, '-f', cfg_file, '-i',
+    #                      args.vm_ip, '-p', dest_file_path])
+    # print('All interfaces of all GNS3 nodes configured!')
 
-    print('Configuring the GNS3 BGP routers...')
-    subprocess.call([PY3_BIN, ROUTER_PY, '-i',
-                     args.input_topo_file, '-o', DEFAULT_ROUTER_CONFIGS_DIR])
-    for node in json_topo['gns3-nodes']:
-        if re.match('^R\d+$', node):
-            zebra_conf_file = '{}/zebra.conf'.format(
-                DEFAULT_ROUTER_CONFIGS_DIR)
-            dest_file_path = '/opt/gns3/projects/{}/project-files/docker/{}/etc/quagga/zebra.conf'.format(
-                json_topo['project']['project_id'],
-                json_topo['gns3-nodes'][node]['node_id'])
-            subprocess.call([PY3_BIN, CP_PY, '-f', zebra_conf_file,
-                             '-i', args.vm_ip, '-p', dest_file_path])
+    # print('Configuring the GNS3 BGP routers...')
+    # subprocess.call([PY3_BIN, ROUTER_PY, '-i',
+    #                  args.input_topo_file, '-o', DEFAULT_ROUTER_CONFIGS_DIR])
+    # for node in json_topo['gns3-nodes']:
+    #     if re.match('^R\d+$', node):
+    #         zebra_conf_file = '{}/zebra.conf'.format(
+    #             DEFAULT_ROUTER_CONFIGS_DIR)
+    #         dest_file_path = '/opt/gns3/projects/{}/project-files/docker/{}/etc/quagga/zebra.conf'.format(
+    #             json_topo['project']['project_id'],
+    #             json_topo['gns3-nodes'][node]['node_id'])
+    #         subprocess.call([PY3_BIN, CP_PY, '-f', zebra_conf_file,
+    #                          '-i', args.vm_ip, '-p', dest_file_path])
 
-            router_conf_file = '{}/{}_bgpd.conf'.format(
-                DEFAULT_ROUTER_CONFIGS_DIR, node)
-            dest_file_path = '/opt/gns3/projects/{}/project-files/docker/{}/etc/quagga/bgpd.conf'.format(
-                json_topo['project']['project_id'],
-                json_topo['gns3-nodes'][node]['node_id'])
-            subprocess.call([PY3_BIN, CP_PY, '-f', router_conf_file,
-                             '-i', args.vm_ip, '-p', dest_file_path])
+    #         router_conf_file = '{}/{}_bgpd.conf'.format(
+    #             DEFAULT_ROUTER_CONFIGS_DIR, node)
+    #         dest_file_path = '/opt/gns3/projects/{}/project-files/docker/{}/etc/quagga/bgpd.conf'.format(
+    #             json_topo['project']['project_id'],
+    #             json_topo['gns3-nodes'][node]['node_id'])
+    #         subprocess.call([PY3_BIN, CP_PY, '-f', router_conf_file,
+    #                          '-i', args.vm_ip, '-p', dest_file_path])
 
-            disable_rp_filter_file = '{}/disable_rp_filter'.format(
-                DEFAULT_ROUTER_CONFIGS_DIR)
-            dest_file_path = '/opt/gns3/projects/{}/project-files/docker/{}/etc/network/if-up.d/disable_rp_filter'.format(
-                json_topo['project']['project_id'],
-                json_topo['gns3-nodes'][node]['node_id'])
-            subprocess.call([PY3_BIN, CP_PY, '-f', disable_rp_filter_file,
-                             '-i', args.vm_ip, '-p', dest_file_path])
-    time.sleep(5)
-    print('All GNS3 BGP routers configured!')
+    #         disable_rp_filter_file = '{}/disable_rp_filter'.format(
+    #             DEFAULT_ROUTER_CONFIGS_DIR)
+    #         dest_file_path = '/opt/gns3/projects/{}/project-files/docker/{}/etc/network/if-up.d/disable_rp_filter'.format(
+    #             json_topo['project']['project_id'],
+    #             json_topo['gns3-nodes'][node]['node_id'])
+    #         subprocess.call([PY3_BIN, CP_PY, '-f', disable_rp_filter_file,
+    #                          '-i', args.vm_ip, '-p', dest_file_path])
+    # time.sleep(5)
+    # print('All GNS3 BGP routers configured!')
 
 
 if __name__ == '__main__':

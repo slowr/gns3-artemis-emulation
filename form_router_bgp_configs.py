@@ -280,7 +280,7 @@ def main():
 
         # Prefix Lists
         router_config[node] += '\n! Prefix list matching private IP ranges, bogons, and other suspicious IP range announcements.\n'
-        router_config[node] += '! Any 'permit' here is a match (not really a 'permit') which is BLOCKED in incoming route map.\n'
+        router_config[node] += '! Any \'permit\' here is a match (not really a \'permit\') which is BLOCKED in incoming route map.\n'
         router_config[node] += '! Note: The le 32 also filters subnets of these bogon ranges. However, neigbours can still\n'
         router_config[node] += '! announce a large supernet which contains a bogon range (e.g. 169.254.0.0/15). So you likely\n'
         router_config[node] += '! want to do additional per-neighbour filtering, or peer with known bogon black hole servers.\n'
@@ -306,9 +306,9 @@ def main():
 
     with open('{}/disable_rp_filter'.format(args.output_router_configs), 'w') as f:
         f.write('#!/bin/sh\n\n')
-        f.write('echo 0 > '/proc/sys/net/ipv4/conf/$IFACE/rp_filter'\n')
-        f.write('echo 0 > '/proc/sys/net/ipv4/conf/all/rp_filter'\n')
-        f.write('echo 0 > '/proc/sys/net/ipv4/conf/default/rp_filter'\n')
+        f.write('echo 0 > "/proc/sys/net/ipv4/conf/$IFACE/rp_filter"\n')
+        f.write('echo 0 > "/proc/sys/net/ipv4/conf/all/rp_filter"\n')
+        f.write('echo 0 > "/proc/sys/net/ipv4/conf/default/rp_filter"\n')
         os.chmod('{}/disable_rp_filter'.format(args.output_router_configs), 0o775)
 
     for node in sorted(router_config):

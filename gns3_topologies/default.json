@@ -1,0 +1,21 @@
+{
+  "as-links":{
+    "AS1-AS2":{
+      "backup":"no",
+      "rel":"c2p"
+    }
+  },
+  "project":{
+    "name":"master"
+  },
+  "as-nodes":{
+    "AS2":{
+      "SDN":false,
+      "EXA":false
+    },
+    "AS1":{
+      "SDN":true,
+      "EXA":true
+    }
+  }
+}
