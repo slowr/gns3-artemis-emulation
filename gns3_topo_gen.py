@@ -21,7 +21,7 @@ DEFAULT_ROUTER_CONFIGS_DIR = './router_configs'
 RUN_COMMAND_PY = 'run_command.py'
 
 
-def create_docker_node(json_topo={}, name=None, image=None, adapters=1):
+def create_docker_node(json_topo={}, name=None, image=None, adapters=1, environment=None):
     # prepare request
     url = 'http://{}:3080/v2/projects/{}/nodes'.format(
         json_topo['url'],
@@ -40,7 +40,8 @@ def create_docker_node(json_topo={}, name=None, image=None, adapters=1):
         'properties': {
             'image': image,
             'console_type': 'telnet',
-            'adapters': adapters
+            'adapters': adapters,
+            'environment': environment
         }
     })
 
@@ -287,7 +288,9 @@ def main():
             print('\t Creating {}...'.format(as_exa_name))
             if as_exa_name not in json_topo['gns3-nodes']:
                 json_topo = create_docker_node(
-                    json_topo, name=as_exa_name, image='mavromat/exabgp-monitor', adapters=2)
+                    json_topo, name=as_exa_name, image='mavromat/exabgp-monitor', adapters=2,
+                    environment='LOCAL_IP=3.0.0.2\nLOCAL_AS={}\nREMOTE_IP=3.0.0.1'.format(node_num)
+                )
                 with open(args.input_topo_file, 'w') as f:
                     json.dump(json_topo, f, indent=2)
             print('\t {} created!'.format(as_exa_name))
@@ -368,7 +371,9 @@ def main():
             connect_link_between(json_topo, router_name, exa_name)
 
             # Connect ONOS and Monitors to a global switch (it will be a tunnel or other prefix in real world)
+            # Even IPs are ONOS
             connect_link_between(json_topo, onos_name, 'Switch0')
+            # Odd IPs are ExaBGP Monitors
             connect_link_between(json_topo, exa_name, 'Switch0')
         else:
             as_host_name = 'H{}'.format(node_num)
@@ -393,8 +398,15 @@ def main():
             dst_router_name = 'R{}'.format(dst_as_num)
 
         connect_link_between(json_topo, src_router_name, dst_router_name)
-
     print('All GNS3 links created!')
+
+    print('Waiting for ~30 seconds for a setup reboot')
+    for node in sorted(json_topo['gns3-nodes']):
+        start_node(json_topo, node_name=node)
+    time.sleep(10)
+    for node in sorted(json_topo['gns3-nodes']):
+        stop_node(json_topo, node_name=node)
+    time.sleep(10)
 
     print('Configuring the network interfaces of GNS3 nodes...')
     subprocess.call([PY3_BIN, IFACE_PY, '-i',
@@ -436,6 +448,7 @@ def main():
                 json_topo['gns3-nodes'][node]['node_id'])
             subprocess.call([PY3_BIN, CP_PY, '-f', disable_rp_filter_file,
                              '-i', args.vm_ip, '-p', dest_file_path])
+    time.sleep(5)
     print('All GNS3 BGP routers configured!')
 
 

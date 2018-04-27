@@ -139,13 +139,13 @@ def main():
             router_config[node] += '\t! no customers\n'
 
         router_config[node] += '\n\t! monitors\n'
-        if json_topo['as-nodes'][node]['EXA']:
+        if json_topo['as-nodes']['AS{}'.format(router_num)]['EXA']:
             router_config[node] += '\tneighbor 3.0.0.2 remote-as {}\n'.format(router_num)
         else:
             router_config[node] += '\t! no monitors\n'
 
         router_config[node] += '\n\t! sdn controller\n'
-        if json_topo['as-nodes'][node]['SDN']:
+        if json_topo['as-nodes']['AS{}'.format(router_num)]['SDN']:
             router_config[node] += '\tneighbor 4.0.0.1 remote-as {}\n'.format(router_num)
         else:
             router_config[node] += '\t! no sdn controller\n'

@@ -95,6 +95,11 @@ def main():
                 intf_config[dst_node] += tmp_dst
             
             elif (src_node_type == 'OVS' and dst_node_type == 'ONOS') or (src_node_type == 'ONOS' and dst_node_type == 'OVS'):
+                if src_node_type == 'OVS':
+                    tmp_src += '\thwaddress ether aa:aa:aa:aa:aa:a{}'.format(int(src_anum))
+                else:
+                    tmp_dst += '\thwaddress ether aa:aa:aa:aa:aa:a{}'.format(int(dst_anum))
+
                 tmp_dst += '\taddress 1.0.0.'
                 tmp_src += '\taddress 1.0.0.'
                 if dst_node_type == 'ONOS':
@@ -126,7 +131,8 @@ def main():
 
             elif src_node_type == 'R' and dst_node_type == 'OVS':
                 tmp_src += '\taddress 2.0.0.'
-                
+                tmp_dst += '\thwaddress ether bb:bb:bb:bb:bb:b{}'.format(int(dst_anum))
+
                 if src_node_num < dst_node_num:
                     tmp_src += '1\n'
                 else:
@@ -138,6 +144,7 @@ def main():
                 
             elif src_node_type == 'OVS' and dst_node_type == 'R':
                 tmp_dst += '\taddress 2.0.0.'
+                tmp_src += '\thwaddress ether bb:bb:bb:bb:bb:b{}'.format(int(src_anum))
 
                 if src_node_num < dst_node_num:
                     tmp_dst += '2\n'
