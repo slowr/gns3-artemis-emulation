@@ -9,7 +9,7 @@ import copy
 
 
 def extract_neighb_ip_address(this_router_num, neighb_as_num):
-    neighb_ip_address = '10.{}.{}.'.format(min(this_router_num, neighb_as_num), max(this_router_num, neighb_as_num))
+    neighb_ip_address = '5.{}.{}.'.format(min(this_router_num, neighb_as_num), max(this_router_num, neighb_as_num))
     if this_router_num < neighb_as_num:
         neighb_ip_address += '2'
     else:
@@ -147,6 +147,7 @@ def main():
         router_config[node] += '\n\t! sdn controller\n'
         if json_topo['as-nodes']['AS{}'.format(router_num)]['SDN']:
             router_config[node] += '\tneighbor 4.0.0.1 remote-as {}\n'.format(router_num)
+            router_config[node] += '\tneighbor 4.0.0.1 port 2000\n'
         else:
             router_config[node] += '\t! no sdn controller\n'
 
