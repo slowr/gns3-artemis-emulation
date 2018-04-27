@@ -79,7 +79,7 @@ def main():
                                                                       router_num,
                                                                       router_num,
                                                                       router_num)
-        router_config[node] += '\n\t! announced networks\n\tnetwork 10.{}.0.0/25\n\tnetwork 10.{}.0.128/25\n'.format(router_num, router_num)
+        router_config[node] += '\n\t! announced networks\n\tnetwork 10.{}.0.0/23\n'.format(router_num, router_num)
         router_config[node] += '\n\t! timers\n\ttimers bgp 1 3\n'
         router_config[node] += '\n\t! inbound/outbound policy\n'
         router_config[node] += '\tneighbor UPSTREAM peer-group\n'
@@ -139,7 +139,16 @@ def main():
             router_config[node] += '\t! no customers\n'
 
         router_config[node] += '\n\t! monitors\n'
-        router_config[node] += '\t! no monitors (not used for now)\n'
+        if json_topo['as-nodes'][node]['EXA']:
+            router_config[node] += '\tneighbor 3.0.0.2 remote-as {}\n'.format(router_num)
+        else:
+            router_config[node] += '\t! no monitors\n'
+
+        router_config[node] += '\n\t! sdn controller\n'
+        if json_topo['as-nodes'][node]['SDN']:
+            router_config[node] += '\tneighbor 4.0.0.1 remote-as {}\n'.format(router_num)
+        else:
+            router_config[node] += '\t! no sdn controller\n'
 
         # Local Pref explanation
         router_config[node] += '\n! Local Preferences:\n'

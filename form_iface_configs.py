@@ -44,12 +44,12 @@ def main():
 
             if src_node_type == 'H':
                 tmp_src += '\taddress 10.{}.0.100\n'.format(src_node_num)
-                tmp_src += '\tnetmask 255.255.255.0\n'
+                tmp_src += '\tnetmask 255.255.254.0\n'
                 tmp_src += '\tgateway 10.{}.0.1\n'.format(src_node_num)
 
                 if dst_node_type == 'R':
                     tmp_dst += '\taddress 10.{}.0.1\n'.format(dst_node_num)
-                    tmp_dst += '\tnetmask 255.255.255.0\n'
+                    tmp_dst += '\tnetmask 255.255.254.0\n'
 
                     intf_config[dst_node] += tmp_dst
 
@@ -57,19 +57,19 @@ def main():
 
             elif dst_node_type == 'H':
                 tmp_dst += '\taddress 10.{}.0.100\n'.format(dst_node_num)
-                tmp_dst += '\tnetmask 255.255.255.0\n'
+                tmp_dst += '\tnetmask 255.255.254.0\n'
                 tmp_dst += '\tgateway 10.{}.0.1\n'.format(dst_node_num)
 
                 if src_node_type == 'R':
                     tmp_src += '\taddress 10.{}.0.1\n'.format(src_node_num)
-                    tmp_src += '\tnetmask 255.255.255.0\n'
+                    tmp_src += '\tnetmask 255.255.254.0\n'
 
                     intf_config[src_node] += tmp_src
                 intf_config[dst_node] += tmp_dst
 
             elif src_node_type == 'R' and dst_node_type == 'R':
-                tmp_src += '\taddress 10.{}.{}.'.format(min(src_node_num, dst_node_num), max(src_node_num, dst_node_num))
-                tmp_dst += '\taddress 10.{}.{}.'.format(min(src_node_num, dst_node_num), max(src_node_num, dst_node_num))
+                tmp_src += '\taddress 5.{}.{}.'.format(min(src_node_num, dst_node_num), max(src_node_num, dst_node_num))
+                tmp_dst += '\taddress 5.{}.{}.'.format(min(src_node_num, dst_node_num), max(src_node_num, dst_node_num))
                 if src_node_num < dst_node_num:
                     tmp_src += '1\n'
                     tmp_dst += '2\n'
