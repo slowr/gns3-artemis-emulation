@@ -12,7 +12,6 @@ from pprint import pprint as pp
 
 
 PY3_BIN = '/usr/bin/python3'
-PY_BIN = '/usr/bin/python'
 IFACE_PY = 'form_iface_configs.py'
 ROUTER_PY = 'form_router_bgp_configs.py'
 CP_PY = 'copy_file_remote.py'
@@ -172,7 +171,7 @@ def run_command(json_topo, node_name, command):
     telnet_port = str(json_topo['gns3-nodes'][node_name]['console'])
 
     print('\t Running commands on {}'.format(node_name))
-    subprocess.call([PY_BIN, RUN_COMMAND_PY, '-ti', telnet_ip, '-tp',
+    subprocess.call([PY3_BIN, RUN_COMMAND_PY, '-ti', telnet_ip, '-tp',
                      telnet_port, '-c', str(command)])
 
     if res.json()['status'] == 'stopped':

@@ -2,7 +2,7 @@
 
 import os
 import stat
-import ujson
+import json
 import argparse
 import re
 import copy
@@ -25,7 +25,7 @@ def main():
     args = parser.parse_args()
 
     with open(args.input_topo_file, 'r') as f:
-        json_topo = ujson.load(f)
+        json_topo = json.load(f)
 
     if not os.path.isdir(args.output_router_configs):
         os.mkdir(args.output_router_configs)
