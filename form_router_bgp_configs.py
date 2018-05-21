@@ -79,7 +79,7 @@ def main():
                                                                       router_num,
                                                                       router_num,
                                                                       router_num)
-        router_config[node] += '\n\t! announced networks\n\tnetwork 10.{}.0.0/23\n'.format(router_num, router_num)
+        router_config[node] += '\n\t! announced networks\n\tnetwork 10.{}.0.0/23\n'.format(router_num)
         router_config[node] += '\n\t! timers\n\ttimers bgp 1 3\n'
         router_config[node] += '\n\t! inbound/outbound policy\n'
         router_config[node] += '\tneighbor UPSTREAM peer-group\n'

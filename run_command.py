@@ -19,14 +19,14 @@ def main():
     args = parser.parse_args()
 
     tn = telnetlib.Telnet(args.tip, args.tport)
-    tn.write('\n')
+    tn.write('\n'.encode('ascii'))
     time.sleep(1)
-    tn.read_until('#')
+    tn.read_until('#'.encode('ascii'))
 
     x = ast.literal_eval(args.command)
     for cmd in x:
-        tn.write('{}\n'.format(cmd))
-        tn.read_until('#')
+        tn.write('{}\n'.format(cmd).encode('ascii'))
+        tn.read_until('#'.encode('ascii'))
 
     tn.close()
 

@@ -17,21 +17,21 @@
     "name":"master"
   },
   "as-nodes":{
-    "AS2":{
+    "AS1":{
       "SDN":false,
       "EXA":false
     },
-    "AS1":{
-      "SDN":true,
+    "AS2":{
+      "SDN":false,
       "EXA":true
     },
     "AS3":{
-      "SDN":true,
-      "EXA":true
-    },
-    "AS4":{
       "SDN":false,
       "EXA":false
+    },
+    "AS4":{
+      "SDN":true,
+      "EXA":true
     }
   }
 }

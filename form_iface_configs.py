@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 
 import os
-import ujson
+import json
 import argparse
 import re
+from collections import defaultdict
 
 
 def main():
@@ -13,7 +14,7 @@ def main():
     args = parser.parse_args()
 
     with open(args.input_topo_file, 'r') as f:
-        json_topo = ujson.load(f)
+        json_topo = json.load(f)
 
     if not os.path.isdir(args.output_iface_configs):
         os.mkdir(args.output_iface_configs)
@@ -83,23 +84,24 @@ def main():
                 intf_config[dst_node] += tmp_dst
 
             elif dst_node_type == 'Switch':
-                tmp_src += '\taddress 100.0.0.{}\n'.format(int(dst_anum) + 1)
+                if src_node_type == 'ONOS':
+                    tmp_src += '\taddress 100.0.0.{}\n'.format(int(src_node_num) * 2 - 1)
+                elif src_node_type == 'EXA':
+                    tmp_src += '\taddress 100.0.0.{}\n'.format(int(src_node_num) * 2)
                 tmp_src += '\tnetmask 255.255.255.0\n'
 
                 intf_config[src_node] += tmp_src
 
             elif src_node_type == 'Switch':
-                tmp_dst += '\taddress 100.0.0.{}\n'.format(int(src_anum) + 1)
+                if dst_node_type== 'ONOS':
+                    tmp_dst += '\taddress 100.0.0.{}\n'.format(int(dst_node_num) * 2 - 1)
+                elif dst_node_type == 'EXA':
+                    tmp_dst += '\taddress 100.0.0.{}\n'.format(int(dst_node_num) * 2)
                 tmp_dst += '\tnetmask 255.255.255.0\n'
 
                 intf_config[dst_node] += tmp_dst
-            
-            elif (src_node_type == 'OVS' and dst_node_type == 'ONOS') or (src_node_type == 'ONOS' and dst_node_type == 'OVS'):
-                if src_node_type == 'OVS':
-                    tmp_src += '\thwaddress ether aa:aa:aa:aa:aa:a{}'.format(int(src_anum))
-                else:
-                    tmp_dst += '\thwaddress ether aa:aa:aa:aa:aa:a{}'.format(int(dst_anum))
 
+            elif (src_node_type == 'OVS' and dst_node_type == 'ONOS') or (src_node_type == 'ONOS' and dst_node_type == 'OVS'):
                 tmp_dst += '\taddress 1.0.0.'
                 tmp_src += '\taddress 1.0.0.'
                 if dst_node_type == 'ONOS':
@@ -130,35 +132,38 @@ def main():
                 intf_config[dst_node] += tmp_dst
 
             elif src_node_type == 'R' and dst_node_type == 'OVS':
-                tmp_src += '\taddress 2.0.0.'
-                tmp_dst += '\thwaddress ether bb:bb:bb:bb:bb:b{}'.format(int(dst_anum))
+                if src_node_num == dst_node_num:
+                    tmp_src += '\thwaddress ether bb:bb:bb:bb:bb:bb\n'
+
+                tmp_src += '\taddress 5.{}.{}.'.format(min(src_node_num, dst_node_num), max(src_node_num, dst_node_num))
 
                 if src_node_num < dst_node_num:
                     tmp_src += '1\n'
                 else:
                     tmp_src += '2\n'
-                
+
                 tmp_src += '\tnetmask 255.255.255.252\n'
-                
+
                 intf_config[src_node] += tmp_src
-                
+
             elif src_node_type == 'OVS' and dst_node_type == 'R':
-                tmp_dst += '\taddress 2.0.0.'
-                tmp_src += '\thwaddress ether bb:bb:bb:bb:bb:b{}'.format(int(src_anum))
+                if src_node_num == dst_node_num:
+                    tmp_dst += '\thwaddress ether bb:bb:bb:bb:bb:bb\n'
+                tmp_dst += '\taddress 5.{}.{}.'.format(min(src_node_num, dst_node_num), max(src_node_num, dst_node_num))
 
                 if src_node_num < dst_node_num:
                     tmp_dst += '2\n'
                 else:
                     tmp_dst += '1\n'
-                
+
                 tmp_dst += '\tnetmask 255.255.255.252\n'
 
                 intf_config[dst_node] += tmp_dst
-            
+
             elif (src_node_type == 'R' and dst_node_type == 'EXA') or (src_node_type == 'EXA' and dst_node_type == 'R'):
                 tmp_dst += '\taddress 3.0.0.'
                 tmp_src += '\taddress 3.0.0.'
-                
+
                 if src_node_type == 'R':
                     tmp_src += '1\n'
                     tmp_dst += '2\n'
@@ -171,13 +176,27 @@ def main():
 
                 intf_config[src_node] += tmp_src
                 intf_config[dst_node] += tmp_dst
-            
-            
 
+    json_topo['intfs'] = defaultdict(dict)
     for node in sorted(intf_config):
         with open('{}/{}_intf.cfg'.format(args.output_iface_configs, node), 'w') as f:
             f.write(intf_config[node])
 
+        def get_nodes(lines):
+            iface, address = '', ''
+            for line in lines:
+                tmp = line.strip()
+                if tmp.startswith('iface'):
+                    iface = tmp.split(' ')[1]
+                elif tmp.startswith('address'):
+                    address = tmp.split(' ')[1]
+                    yield iface, address
+
+        for iface, address in get_nodes(intf_config[node].splitlines()):
+            json_topo['intfs'][node][iface] = address
+
+    with open(args.input_topo_file, 'w') as f:
+        json.dump(json_topo, f, indent=2)
 
 if __name__ == '__main__':
     main()

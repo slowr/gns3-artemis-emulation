@@ -1,37 +1,1244 @@
 {
-  "as-links":{
-    "AS1-AS2":{
-      "backup":"no",
-      "rel":"c2p"
+  "as-links": {
+    "AS1-AS2": {
+      "backup": "no",
+      "rel": "c2p"
     },
-    "AS2-AS3":{
-      "backup":"no",
-      "rel":"c2p"
+    "AS2-AS3": {
+      "backup": "no",
+      "rel": "c2p"
     },
-    "AS3-AS4":{
-      "backup":"no",
-      "rel":"c2p"
+    "AS3-AS4": {
+      "backup": "no",
+      "rel": "c2p"
     }
   },
-  "project":{
-    "name":"master"
+  "project": {
+    "name": "master",
+    "url": "192.168.163.132",
+    "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c",
+    "path": "/opt/gns3/projects/88c5c187-8983-4244-a10f-b579edeb8c0c",
+    "filename": "master.gns3"
   },
-  "as-nodes":{
-    "AS2":{
-      "SDN":false,
-      "EXA":false
+  "as-nodes": {
+    "AS1": {
+      "SDN": false,
+      "EXA": false
     },
-    "AS1":{
-      "SDN":true,
-      "EXA":true
+    "AS2": {
+      "SDN": false,
+      "EXA": true
     },
-    "AS3":{
-      "SDN":true,
-      "EXA":true
+    "AS3": {
+      "SDN": false,
+      "EXA": false
     },
-    "AS4":{
-      "SDN":false,
-      "EXA":false
+    "AS4": {
+      "SDN": true,
+      "EXA": true
+    }
+  },
+  "gns3-nodes": {
+    "H1": {
+      "command_line": null,
+      "compute_id": "local",
+      "console": 5000,
+      "console_host": "0.0.0.0",
+      "console_type": "telnet",
+      "first_port_name": null,
+      "node_directory": "/opt/gns3/projects/88c5c187-8983-4244-a10f-b579edeb8c0c/project-files/docker/5e62dec8-d691-41a0-9933-9f4d0b8d21b3",
+      "node_id": "5e62dec8-d691-41a0-9933-9f4d0b8d21b3",
+      "node_type": "docker",
+      "port_name_format": "Ethernet{0}",
+      "port_segment_size": 0,
+      "ports": [
+        {
+          "adapter_number": 0,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth0",
+          "port_number": 0,
+          "short_name": "eth0"
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c",
+      "properties": {
+        "adapters": 1,
+        "aux": 5001,
+        "console_http_path": "/",
+        "console_http_port": 80,
+        "console_resolution": "1024x768",
+        "console_type": "telnet",
+        "container_id": "c48257f6a568071f0ca48644770609470cdb20974953be6501a4eb765119125a",
+        "environment": null,
+        "image": "gns3/endhost:latest",
+        "start_command": null
+      }
+    },
+    "R1": {
+      "command_line": null,
+      "compute_id": "local",
+      "console": 5002,
+      "console_host": "0.0.0.0",
+      "console_type": "telnet",
+      "first_port_name": null,
+      "node_directory": "/opt/gns3/projects/88c5c187-8983-4244-a10f-b579edeb8c0c/project-files/docker/dc8674d0-b170-4d23-84a8-7e929e2bafb8",
+      "node_id": "dc8674d0-b170-4d23-84a8-7e929e2bafb8",
+      "node_type": "docker",
+      "port_name_format": "Ethernet{0}",
+      "port_segment_size": 0,
+      "ports": [
+        {
+          "adapter_number": 0,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth0",
+          "port_number": 0,
+          "short_name": "eth0"
+        },
+        {
+          "adapter_number": 1,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth1",
+          "port_number": 0,
+          "short_name": "eth1"
+        },
+        {
+          "adapter_number": 2,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth2",
+          "port_number": 0,
+          "short_name": "eth2"
+        },
+        {
+          "adapter_number": 3,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth3",
+          "port_number": 0,
+          "short_name": "eth3"
+        },
+        {
+          "adapter_number": 4,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth4",
+          "port_number": 0,
+          "short_name": "eth4"
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c",
+      "properties": {
+        "adapters": 5,
+        "aux": 5003,
+        "console_http_path": "/",
+        "console_http_port": 80,
+        "console_resolution": "1024x768",
+        "console_type": "telnet",
+        "container_id": "fe468be076035663ad30d77d88e0402cf5ffbeedfc831a7736ce15dadf2e4d1a",
+        "environment": null,
+        "image": "ajnouri/quagga_alpine:latest",
+        "start_command": null
+      }
+    },
+    "H2": {
+      "command_line": null,
+      "compute_id": "local",
+      "console": 5004,
+      "console_host": "0.0.0.0",
+      "console_type": "telnet",
+      "first_port_name": null,
+      "node_directory": "/opt/gns3/projects/88c5c187-8983-4244-a10f-b579edeb8c0c/project-files/docker/056030d4-3cf0-4de7-b537-c2fe85623c6a",
+      "node_id": "056030d4-3cf0-4de7-b537-c2fe85623c6a",
+      "node_type": "docker",
+      "port_name_format": "Ethernet{0}",
+      "port_segment_size": 0,
+      "ports": [
+        {
+          "adapter_number": 0,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth0",
+          "port_number": 0,
+          "short_name": "eth0"
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c",
+      "properties": {
+        "adapters": 1,
+        "aux": 5005,
+        "console_http_path": "/",
+        "console_http_port": 80,
+        "console_resolution": "1024x768",
+        "console_type": "telnet",
+        "container_id": "8265c8a08d01f735ccfeeab75449b32fe5e87855e4f2797472baccbc049d7443",
+        "environment": null,
+        "image": "gns3/endhost:latest",
+        "start_command": null
+      }
+    },
+    "R2": {
+      "command_line": null,
+      "compute_id": "local",
+      "console": 5006,
+      "console_host": "0.0.0.0",
+      "console_type": "telnet",
+      "first_port_name": null,
+      "node_directory": "/opt/gns3/projects/88c5c187-8983-4244-a10f-b579edeb8c0c/project-files/docker/8b741e8b-b461-4b94-aae1-1d5252f5c955",
+      "node_id": "8b741e8b-b461-4b94-aae1-1d5252f5c955",
+      "node_type": "docker",
+      "port_name_format": "Ethernet{0}",
+      "port_segment_size": 0,
+      "ports": [
+        {
+          "adapter_number": 0,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth0",
+          "port_number": 0,
+          "short_name": "eth0"
+        },
+        {
+          "adapter_number": 1,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth1",
+          "port_number": 0,
+          "short_name": "eth1"
+        },
+        {
+          "adapter_number": 2,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth2",
+          "port_number": 0,
+          "short_name": "eth2"
+        },
+        {
+          "adapter_number": 3,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth3",
+          "port_number": 0,
+          "short_name": "eth3"
+        },
+        {
+          "adapter_number": 4,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth4",
+          "port_number": 0,
+          "short_name": "eth4"
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c",
+      "properties": {
+        "adapters": 5,
+        "aux": 5007,
+        "console_http_path": "/",
+        "console_http_port": 80,
+        "console_resolution": "1024x768",
+        "console_type": "telnet",
+        "container_id": "15c9e02246263b500b3e8e002903954af1dad24a34c5b30d998cefb7c9adae59",
+        "environment": null,
+        "image": "ajnouri/quagga_alpine:latest",
+        "start_command": null
+      }
+    },
+    "EXA2": {
+      "command_line": null,
+      "compute_id": "local",
+      "console": 5008,
+      "console_host": "0.0.0.0",
+      "console_type": "telnet",
+      "first_port_name": null,
+      "node_directory": "/opt/gns3/projects/88c5c187-8983-4244-a10f-b579edeb8c0c/project-files/docker/fe1fd8c9-1906-4dab-b196-6bf43a4df327",
+      "node_id": "fe1fd8c9-1906-4dab-b196-6bf43a4df327",
+      "node_type": "docker",
+      "port_name_format": "Ethernet{0}",
+      "port_segment_size": 0,
+      "ports": [
+        {
+          "adapter_number": 0,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth0",
+          "port_number": 0,
+          "short_name": "eth0"
+        },
+        {
+          "adapter_number": 1,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth1",
+          "port_number": 0,
+          "short_name": "eth1"
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c",
+      "properties": {
+        "adapters": 2,
+        "aux": 5009,
+        "console_http_path": "/",
+        "console_http_port": 80,
+        "console_resolution": "1024x768",
+        "console_type": "telnet",
+        "container_id": "0a03e5ab0b567f1b7114a61c81e3ff55debb56c7934823739c4ccf2ead5bce0b",
+        "environment": "LOCAL_IP=3.0.0.2\nLOCAL_AS=2\nREMOTE_IP=3.0.0.1",
+        "image": "mavromat/exabgp-monitor:latest",
+        "start_command": null
+      }
+    },
+    "H3": {
+      "command_line": null,
+      "compute_id": "local",
+      "console": 5010,
+      "console_host": "0.0.0.0",
+      "console_type": "telnet",
+      "first_port_name": null,
+      "node_directory": "/opt/gns3/projects/88c5c187-8983-4244-a10f-b579edeb8c0c/project-files/docker/6307569e-6f10-4829-916e-d94f201ceeae",
+      "node_id": "6307569e-6f10-4829-916e-d94f201ceeae",
+      "node_type": "docker",
+      "port_name_format": "Ethernet{0}",
+      "port_segment_size": 0,
+      "ports": [
+        {
+          "adapter_number": 0,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth0",
+          "port_number": 0,
+          "short_name": "eth0"
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c",
+      "properties": {
+        "adapters": 1,
+        "aux": 5011,
+        "console_http_path": "/",
+        "console_http_port": 80,
+        "console_resolution": "1024x768",
+        "console_type": "telnet",
+        "container_id": "ab4d4f7c722f71309d2f27cf67847f56f8755fc852f3a36d55a59d81db553ede",
+        "environment": null,
+        "image": "gns3/endhost:latest",
+        "start_command": null
+      }
+    },
+    "R3": {
+      "command_line": null,
+      "compute_id": "local",
+      "console": 5012,
+      "console_host": "0.0.0.0",
+      "console_type": "telnet",
+      "first_port_name": null,
+      "node_directory": "/opt/gns3/projects/88c5c187-8983-4244-a10f-b579edeb8c0c/project-files/docker/6aaa8ac8-b595-4f20-a52f-ee31ffd39953",
+      "node_id": "6aaa8ac8-b595-4f20-a52f-ee31ffd39953",
+      "node_type": "docker",
+      "port_name_format": "Ethernet{0}",
+      "port_segment_size": 0,
+      "ports": [
+        {
+          "adapter_number": 0,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth0",
+          "port_number": 0,
+          "short_name": "eth0"
+        },
+        {
+          "adapter_number": 1,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth1",
+          "port_number": 0,
+          "short_name": "eth1"
+        },
+        {
+          "adapter_number": 2,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth2",
+          "port_number": 0,
+          "short_name": "eth2"
+        },
+        {
+          "adapter_number": 3,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth3",
+          "port_number": 0,
+          "short_name": "eth3"
+        },
+        {
+          "adapter_number": 4,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth4",
+          "port_number": 0,
+          "short_name": "eth4"
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c",
+      "properties": {
+        "adapters": 5,
+        "aux": 5013,
+        "console_http_path": "/",
+        "console_http_port": 80,
+        "console_resolution": "1024x768",
+        "console_type": "telnet",
+        "container_id": "843c25edc5ad134befdaeecdce8d4950af01e6195d75b2230e664b1511be372f",
+        "environment": null,
+        "image": "ajnouri/quagga_alpine:latest",
+        "start_command": null
+      }
+    },
+    "H4": {
+      "command_line": null,
+      "compute_id": "local",
+      "console": 5014,
+      "console_host": "0.0.0.0",
+      "console_type": "telnet",
+      "first_port_name": null,
+      "node_directory": "/opt/gns3/projects/88c5c187-8983-4244-a10f-b579edeb8c0c/project-files/docker/860795ee-3d6a-48d4-ae35-86b7c32fa369",
+      "node_id": "860795ee-3d6a-48d4-ae35-86b7c32fa369",
+      "node_type": "docker",
+      "port_name_format": "Ethernet{0}",
+      "port_segment_size": 0,
+      "ports": [
+        {
+          "adapter_number": 0,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth0",
+          "port_number": 0,
+          "short_name": "eth0"
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c",
+      "properties": {
+        "adapters": 1,
+        "aux": 5015,
+        "console_http_path": "/",
+        "console_http_port": 80,
+        "console_resolution": "1024x768",
+        "console_type": "telnet",
+        "container_id": "2dee76202d0c034d5d455d12ca633f08fa94ebeb30264e42b20632e3a96f8f65",
+        "environment": null,
+        "image": "gns3/endhost:latest",
+        "start_command": null
+      }
+    },
+    "R4": {
+      "command_line": null,
+      "compute_id": "local",
+      "console": 5016,
+      "console_host": "0.0.0.0",
+      "console_type": "telnet",
+      "first_port_name": null,
+      "node_directory": "/opt/gns3/projects/88c5c187-8983-4244-a10f-b579edeb8c0c/project-files/docker/ed2ee88b-7a93-472a-ab0c-9fd18809b766",
+      "node_id": "ed2ee88b-7a93-472a-ab0c-9fd18809b766",
+      "node_type": "docker",
+      "port_name_format": "Ethernet{0}",
+      "port_segment_size": 0,
+      "ports": [
+        {
+          "adapter_number": 0,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth0",
+          "port_number": 0,
+          "short_name": "eth0"
+        },
+        {
+          "adapter_number": 1,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth1",
+          "port_number": 0,
+          "short_name": "eth1"
+        },
+        {
+          "adapter_number": 2,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth2",
+          "port_number": 0,
+          "short_name": "eth2"
+        },
+        {
+          "adapter_number": 3,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth3",
+          "port_number": 0,
+          "short_name": "eth3"
+        },
+        {
+          "adapter_number": 4,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth4",
+          "port_number": 0,
+          "short_name": "eth4"
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c",
+      "properties": {
+        "adapters": 5,
+        "aux": 5017,
+        "console_http_path": "/",
+        "console_http_port": 80,
+        "console_resolution": "1024x768",
+        "console_type": "telnet",
+        "container_id": "fb60379671166102f01a3ac66168e13bed02be946ac6740cc80fcf8728344a41",
+        "environment": null,
+        "image": "ajnouri/quagga_alpine:latest",
+        "start_command": null
+      }
+    },
+    "OVS4": {
+      "command_line": null,
+      "compute_id": "local",
+      "console": 5018,
+      "console_host": "0.0.0.0",
+      "console_type": "telnet",
+      "first_port_name": null,
+      "node_directory": "/opt/gns3/projects/88c5c187-8983-4244-a10f-b579edeb8c0c/project-files/docker/76749d47-7d16-4209-b838-ccf5a6f7569b",
+      "node_id": "76749d47-7d16-4209-b838-ccf5a6f7569b",
+      "node_type": "docker",
+      "port_name_format": "Ethernet{0}",
+      "port_segment_size": 0,
+      "ports": [
+        {
+          "adapter_number": 0,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth0",
+          "port_number": 0,
+          "short_name": "eth0"
+        },
+        {
+          "adapter_number": 1,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth1",
+          "port_number": 0,
+          "short_name": "eth1"
+        },
+        {
+          "adapter_number": 2,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth2",
+          "port_number": 0,
+          "short_name": "eth2"
+        },
+        {
+          "adapter_number": 3,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth3",
+          "port_number": 0,
+          "short_name": "eth3"
+        },
+        {
+          "adapter_number": 4,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth4",
+          "port_number": 0,
+          "short_name": "eth4"
+        },
+        {
+          "adapter_number": 5,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth5",
+          "port_number": 0,
+          "short_name": "eth5"
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c",
+      "properties": {
+        "adapters": 6,
+        "aux": 5019,
+        "console_http_path": "/",
+        "console_http_port": 80,
+        "console_resolution": "1024x768",
+        "console_type": "telnet",
+        "container_id": "88404d82229cc25dcd9adc229ac4eb3b03e46d314ba2dc3a89ff2ddf80300446",
+        "environment": null,
+        "image": "gns3/openvswitch:latest",
+        "start_command": null
+      }
+    },
+    "ONOS4": {
+      "command_line": null,
+      "compute_id": "local",
+      "console": 5020,
+      "console_host": "0.0.0.0",
+      "console_type": "telnet",
+      "first_port_name": null,
+      "node_directory": "/opt/gns3/projects/88c5c187-8983-4244-a10f-b579edeb8c0c/project-files/docker/2785a032-d282-4289-9175-6e5e4f4e2aad",
+      "node_id": "2785a032-d282-4289-9175-6e5e4f4e2aad",
+      "node_type": "docker",
+      "port_name_format": "Ethernet{0}",
+      "port_segment_size": 0,
+      "ports": [
+        {
+          "adapter_number": 0,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth0",
+          "port_number": 0,
+          "short_name": "eth0"
+        },
+        {
+          "adapter_number": 1,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth1",
+          "port_number": 0,
+          "short_name": "eth1"
+        },
+        {
+          "adapter_number": 2,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth2",
+          "port_number": 0,
+          "short_name": "eth2"
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c",
+      "properties": {
+        "adapters": 3,
+        "aux": 5021,
+        "console_http_path": "/",
+        "console_http_port": 80,
+        "console_resolution": "1024x768",
+        "console_type": "telnet",
+        "container_id": "e55af36693ab4d379b0852b70878ed539bd03fa6d286d86c74cebfb89722db6c",
+        "environment": null,
+        "image": "onosproject/onos:1.12.0",
+        "start_command": "cli"
+      }
+    },
+    "EXA4": {
+      "command_line": null,
+      "compute_id": "local",
+      "console": 5022,
+      "console_host": "0.0.0.0",
+      "console_type": "telnet",
+      "first_port_name": null,
+      "node_directory": "/opt/gns3/projects/88c5c187-8983-4244-a10f-b579edeb8c0c/project-files/docker/75639539-8277-4322-99cb-ae51e67d7604",
+      "node_id": "75639539-8277-4322-99cb-ae51e67d7604",
+      "node_type": "docker",
+      "port_name_format": "Ethernet{0}",
+      "port_segment_size": 0,
+      "ports": [
+        {
+          "adapter_number": 0,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth0",
+          "port_number": 0,
+          "short_name": "eth0"
+        },
+        {
+          "adapter_number": 1,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth1",
+          "port_number": 0,
+          "short_name": "eth1"
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c",
+      "properties": {
+        "adapters": 2,
+        "aux": 5023,
+        "console_http_path": "/",
+        "console_http_port": 80,
+        "console_resolution": "1024x768",
+        "console_type": "telnet",
+        "container_id": "e2aa6c35b2d89359acc33b57704d293d6c7e435fa61b7501d513d9f428bf0268",
+        "environment": "LOCAL_IP=3.0.0.2\nLOCAL_AS=4\nREMOTE_IP=3.0.0.1",
+        "image": "mavromat/exabgp-monitor:latest",
+        "start_command": null
+      }
+    },
+    "Switch0": {
+      "command_line": null,
+      "compute_id": "local",
+      "console": 5024,
+      "console_host": "0.0.0.0",
+      "console_type": "telnet",
+      "first_port_name": null,
+      "node_directory": "/opt/gns3/projects/88c5c187-8983-4244-a10f-b579edeb8c0c/project-files/docker/b3b7da42-0088-4b4f-b1b0-6893b08606ab",
+      "node_id": "b3b7da42-0088-4b4f-b1b0-6893b08606ab",
+      "node_type": "docker",
+      "port_name_format": "Ethernet{0}",
+      "port_segment_size": 0,
+      "ports": [
+        {
+          "adapter_number": 0,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth0",
+          "port_number": 0,
+          "short_name": "eth0"
+        },
+        {
+          "adapter_number": 1,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth1",
+          "port_number": 0,
+          "short_name": "eth1"
+        },
+        {
+          "adapter_number": 2,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth2",
+          "port_number": 0,
+          "short_name": "eth2"
+        },
+        {
+          "adapter_number": 3,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth3",
+          "port_number": 0,
+          "short_name": "eth3"
+        },
+        {
+          "adapter_number": 4,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth4",
+          "port_number": 0,
+          "short_name": "eth4"
+        },
+        {
+          "adapter_number": 5,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth5",
+          "port_number": 0,
+          "short_name": "eth5"
+        },
+        {
+          "adapter_number": 6,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth6",
+          "port_number": 0,
+          "short_name": "eth6"
+        },
+        {
+          "adapter_number": 7,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth7",
+          "port_number": 0,
+          "short_name": "eth7"
+        },
+        {
+          "adapter_number": 8,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth8",
+          "port_number": 0,
+          "short_name": "eth8"
+        },
+        {
+          "adapter_number": 9,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth9",
+          "port_number": 0,
+          "short_name": "eth9"
+        },
+        {
+          "adapter_number": 10,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth10",
+          "port_number": 0,
+          "short_name": "eth10"
+        },
+        {
+          "adapter_number": 11,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth11",
+          "port_number": 0,
+          "short_name": "eth11"
+        },
+        {
+          "adapter_number": 12,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth12",
+          "port_number": 0,
+          "short_name": "eth12"
+        },
+        {
+          "adapter_number": 13,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth13",
+          "port_number": 0,
+          "short_name": "eth13"
+        },
+        {
+          "adapter_number": 14,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth14",
+          "port_number": 0,
+          "short_name": "eth14"
+        },
+        {
+          "adapter_number": 15,
+          "data_link_types": {
+            "Ethernet": "DLT_EN10MB"
+          },
+          "link_type": "ethernet",
+          "name": "eth15",
+          "port_number": 0,
+          "short_name": "eth15"
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c",
+      "properties": {
+        "adapters": 16,
+        "aux": 5025,
+        "console_http_path": "/",
+        "console_http_port": 80,
+        "console_resolution": "1024x768",
+        "console_type": "telnet",
+        "container_id": "6065c9ae8ed40a296b662fdf3bb855246a6f99688fedc45dd28dde2ef3f36414",
+        "environment": null,
+        "image": "gns3/openvswitch:latest",
+        "start_command": null
+      }
+    }
+  },
+  "gns3-links": {
+    "H1:0-R1:0": {
+      "link_id": "00fb2dbf-8e91-4bc4-9dda-95a846b97d8f",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 0,
+          "node_id": "5e62dec8-d691-41a0-9933-9f4d0b8d21b3",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 0,
+          "node_id": "dc8674d0-b170-4d23-84a8-7e929e2bafb8",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    },
+    "H2:0-R2:0": {
+      "link_id": "28fad0ff-3ae1-4924-bc1e-c268e5b9727c",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 0,
+          "node_id": "056030d4-3cf0-4de7-b537-c2fe85623c6a",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 0,
+          "node_id": "8b741e8b-b461-4b94-aae1-1d5252f5c955",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    },
+    "R2:1-EXA2:0": {
+      "link_id": "01ce1ca5-66d4-41d8-861f-c4e9c57e29a0",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 1,
+          "node_id": "8b741e8b-b461-4b94-aae1-1d5252f5c955",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 0,
+          "node_id": "fe1fd8c9-1906-4dab-b196-6bf43a4df327",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    },
+    "EXA2:1-Switch0:0": {
+      "link_id": "97644abd-8ac7-47a0-9f45-7cdb4c1113a9",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 1,
+          "node_id": "fe1fd8c9-1906-4dab-b196-6bf43a4df327",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 0,
+          "node_id": "b3b7da42-0088-4b4f-b1b0-6893b08606ab",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    },
+    "H3:0-R3:0": {
+      "link_id": "6f5d248f-c5fa-49b0-8732-5e87019caa76",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 0,
+          "node_id": "6307569e-6f10-4829-916e-d94f201ceeae",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 0,
+          "node_id": "6aaa8ac8-b595-4f20-a52f-ee31ffd39953",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    },
+    "OVS4:1-ONOS4:0": {
+      "link_id": "f4c03d38-f4a4-4b61-a71d-da521c51460b",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 1,
+          "node_id": "76749d47-7d16-4209-b838-ccf5a6f7569b",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 0,
+          "node_id": "2785a032-d282-4289-9175-6e5e4f4e2aad",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    },
+    "OVS4:2-R4:0": {
+      "link_id": "79643bec-e8c7-4d9d-afaf-978de2d365de",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 2,
+          "node_id": "76749d47-7d16-4209-b838-ccf5a6f7569b",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 0,
+          "node_id": "ed2ee88b-7a93-472a-ab0c-9fd18809b766",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    },
+    "OVS4:3-H4:0": {
+      "link_id": "8956ac2e-1265-4778-99bb-5db3d7948003",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 3,
+          "node_id": "76749d47-7d16-4209-b838-ccf5a6f7569b",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 0,
+          "node_id": "860795ee-3d6a-48d4-ae35-86b7c32fa369",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    },
+    "ONOS4:1-R4:1": {
+      "link_id": "67b40b48-99ad-426a-8a4e-987c33e90065",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 1,
+          "node_id": "2785a032-d282-4289-9175-6e5e4f4e2aad",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 1,
+          "node_id": "ed2ee88b-7a93-472a-ab0c-9fd18809b766",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    },
+    "R4:2-EXA4:0": {
+      "link_id": "d14003c0-b889-469e-be4a-39817f27f7b2",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 2,
+          "node_id": "ed2ee88b-7a93-472a-ab0c-9fd18809b766",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 0,
+          "node_id": "75639539-8277-4322-99cb-ae51e67d7604",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    },
+    "EXA4:1-Switch0:1": {
+      "link_id": "e605717e-f17c-4ed1-afd9-c89f98c55e29",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 1,
+          "node_id": "75639539-8277-4322-99cb-ae51e67d7604",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 1,
+          "node_id": "b3b7da42-0088-4b4f-b1b0-6893b08606ab",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    },
+    "ONOS4:2-Switch0:2": {
+      "link_id": "71ccf777-162b-412a-9a74-e9bb27d4f24d",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 2,
+          "node_id": "2785a032-d282-4289-9175-6e5e4f4e2aad",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 2,
+          "node_id": "b3b7da42-0088-4b4f-b1b0-6893b08606ab",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    },
+    "R1:1-R2:2": {
+      "link_id": "ee6b27db-4c05-4a26-afb5-d9dc5cf5eb2b",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 1,
+          "node_id": "dc8674d0-b170-4d23-84a8-7e929e2bafb8",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 2,
+          "node_id": "8b741e8b-b461-4b94-aae1-1d5252f5c955",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    },
+    "R2:3-R3:1": {
+      "link_id": "5ffca9b5-f0fb-46b2-88c2-d27e2d543588",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 3,
+          "node_id": "8b741e8b-b461-4b94-aae1-1d5252f5c955",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 1,
+          "node_id": "6aaa8ac8-b595-4f20-a52f-ee31ffd39953",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    },
+    "R3:2-OVS4:4": {
+      "link_id": "0ed10597-4e0f-41d6-912d-b3bb1dd4ca86",
+      "link_type": "ethernet",
+      "nodes": [
+        {
+          "adapter_number": 2,
+          "node_id": "6aaa8ac8-b595-4f20-a52f-ee31ffd39953",
+          "port_number": 0
+        },
+        {
+          "adapter_number": 4,
+          "node_id": "76749d47-7d16-4209-b838-ccf5a6f7569b",
+          "port_number": 0
+        }
+      ],
+      "project_id": "88c5c187-8983-4244-a10f-b579edeb8c0c"
+    }
+  },
+  "intfs": {
+    "EXA2": {
+      "eth1": "100.0.0.4",
+      "eth0": "3.0.0.2"
+    },
+    "EXA4": {
+      "eth1": "100.0.0.8",
+      "eth0": "3.0.0.2"
+    },
+    "H1": {
+      "eth0": "10.1.0.100"
+    },
+    "H2": {
+      "eth0": "10.2.0.100"
+    },
+    "H3": {
+      "eth0": "10.3.0.100"
+    },
+    "H4": {
+      "eth0": "10.4.0.100"
+    },
+    "ONOS4": {
+      "eth1": "4.0.0.1",
+      "eth2": "100.0.0.7",
+      "eth0": "1.0.0.1"
+    },
+    "OVS4": {
+      "eth1": "1.0.0.2"
+    },
+    "R1": {
+      "eth0": "10.1.0.1",
+      "eth1": "5.1.2.1"
+    },
+    "R2": {
+      "eth0": "10.2.0.1",
+      "eth2": "5.1.2.2",
+      "eth1": "3.0.0.1",
+      "eth3": "5.2.3.1"
+    },
+    "R3": {
+      "eth0": "10.3.0.1",
+      "eth1": "5.2.3.2",
+      "eth2": "5.3.4.1"
+    },
+    "R4": {
+      "eth1": "4.0.0.2",
+      "eth0": "5.4.4.1",
+      "eth2": "3.0.0.1"
     }
   }
 }

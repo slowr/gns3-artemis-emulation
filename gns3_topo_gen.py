@@ -20,10 +20,10 @@ DEFAULT_ROUTER_CONFIGS_DIR = './router_configs'
 RUN_COMMAND_PY = 'run_command.py'
 
 
-def create_docker_node(json_topo={}, name=None, image=None, adapters=1, environment=None):
+def create_docker_node(json_topo={}, name=None, image=None, adapters=1, environment=None, start_command=None):
     # prepare request
     url = 'http://{}:3080/v2/projects/{}/nodes'.format(
-        json_topo['url'],
+        json_topo['project']['url'],
         json_topo['project']['project_id']
     )
 
@@ -40,7 +40,8 @@ def create_docker_node(json_topo={}, name=None, image=None, adapters=1, environm
             'image': image,
             'console_type': 'telnet',
             'adapters': adapters,
-            'environment': environment
+            'environment': environment,
+            'start_command': start_command
         }
     })
 
@@ -80,7 +81,7 @@ def create_docker_link(json_topo={}, src_hname=None, src_anum=0, dst_hname=None,
 
     # prepare request
     url = 'http://{}:3080/v2/projects/{}/links'.format(
-        json_topo['url'],
+        json_topo['project']['url'],
         json_topo['project']['project_id']
     )
 
@@ -128,7 +129,7 @@ def create_docker_link(json_topo={}, src_hname=None, src_anum=0, dst_hname=None,
 def start_node(json_topo, node_name):
     # prepare request
     url = 'http://{}:3080/v2/projects/{}/nodes/{}/start'.format(
-        json_topo['url'],
+        json_topo['project']['url'],
         json_topo['project']['project_id'],
         json_topo['gns3-nodes'][node_name]['node_id']
     )
@@ -142,7 +143,7 @@ def start_node(json_topo, node_name):
 def stop_node(json_topo, node_name):
     # prepare request
     url = 'http://{}:3080/v2/projects/{}/nodes/{}/stop'.format(
-        json_topo['url'],
+        json_topo['project']['url'],
         json_topo['project']['project_id'],
         json_topo['gns3-nodes'][node_name]['node_id']
     )
@@ -155,7 +156,7 @@ def stop_node(json_topo, node_name):
 
 def run_command(json_topo, node_name, command):
     url = 'http://{}:3080/v2/projects/{}/nodes/{}'.format(
-        json_topo['url'],
+        json_topo['project']['url'],
         json_topo['project']['project_id'],
         json_topo['gns3-nodes'][node_name]['node_id']
     )
@@ -167,7 +168,7 @@ def run_command(json_topo, node_name, command):
         start_node(json_topo, node_name)
         time.sleep(2)
 
-    telnet_ip = json_topo['url']
+    telnet_ip = json_topo['project']['url']
     telnet_port = str(json_topo['gns3-nodes'][node_name]['console'])
 
     print('\t Running commands on {}'.format(node_name))
@@ -190,14 +191,14 @@ def main():
     with open(args.input_topo_file, 'r') as f:
         json_topo = json.load(f)
 
-    json_topo['url'] = args.vm_ip
+    json_topo['project']['url'] = args.vm_ip
 
     # TODO: validate the json topo file!
 
     # Create project
     if 'project_id' not in json_topo['project']:
         print('Creating GNS3 project...')
-        url = 'http://{}:3080/v2/projects'.format(json_topo['url'])
+        url = 'http://{}:3080/v2/projects'.format(json_topo['project']['url'])
         payload = json.dumps({
             'name': json_topo['project']['name']
         })
@@ -263,7 +264,8 @@ def main():
 
             commands = [
                 'ovs-vsctl set-fail-mode br0 secure',
-                'ovs-vsctl set-controller br0 tcp:1.0.0.1:6653'
+                'ovs-vsctl set-controller br0 tcp:1.0.0.1:6653',
+                'ovs-vsctl set bridge br0 other-config:datapath-id=00:00:00:00:00:00:00:01'
             ]
             for i in range(6, 16):
                 commands.append('ovs-vsctl del-port br0 eth{}'.format(i))
@@ -276,7 +278,7 @@ def main():
             print('\t Creating {}...'.format(as_onos_name))
             if as_onos_name not in json_topo['gns3-nodes']:
                 json_topo = create_docker_node(
-                    json_topo, name=as_onos_name, image='mavromat/onos-artemis', adapters=3)
+                        json_topo, name=as_onos_name, image='onosproject/onos:1.12.0', adapters=3, start_command='cli')
                 with open(args.input_topo_file, 'w') as f:
                     json.dump(json_topo, f, indent=2)
             print('\t {} created!'.format(as_onos_name))
@@ -365,20 +367,30 @@ def main():
             # Connect ONOS with BGP Speaker
             connect_link_between(json_topo, onos_name, router_name)
 
-            # Connect Monitor with BGP Speaker
-            exa_name = 'EXA{}'.format(node_num)
-            connect_link_between(json_topo, router_name, exa_name)
+            if json_topo['as-nodes'][node]['EXA']:
+                # Connect Monitor with BGP Speaker
+                exa_name = 'EXA{}'.format(node_num)
+                connect_link_between(json_topo, router_name, exa_name)
+
+                # Even IPs are ExaBGP Monitors
+                connect_link_between(json_topo, exa_name, 'Switch0')
 
             # Connect ONOS and Monitors to a global switch (it will be a tunnel or other prefix in real world)
-            # Even IPs are ONOS
+            # Odd IPs are ONOS
             connect_link_between(json_topo, onos_name, 'Switch0')
-            # Odd IPs are ExaBGP Monitors
-            connect_link_between(json_topo, exa_name, 'Switch0')
         else:
             as_host_name = 'H{}'.format(node_num)
             as_conn_name = 'R{}'.format(node_num)
 
             connect_link_between(json_topo, as_host_name, as_conn_name)
+
+            if json_topo['as-nodes'][node]['EXA']:
+                # Connect Monitor with BGP Speaker
+                exa_name = 'EXA{}'.format(node_num)
+                connect_link_between(json_topo, as_conn_name, exa_name)
+
+                # Even IPs are ExaBGP Monitors
+                connect_link_between(json_topo, exa_name, 'Switch0')
 
     # Connecting AS routers with other AS routers (external)
     for link in sorted(json_topo['as-links']):
@@ -416,7 +428,7 @@ def main():
             json_topo['project']['project_id'],
             json_topo['gns3-nodes'][node]['node_id'])
         subprocess.call([PY3_BIN, CP_PY, '-f', cfg_file, '-i',
-                         json_topo['url'], '-p', dest_file_path])
+                         json_topo['project']['url'], '-p', dest_file_path])
     print('All interfaces of all GNS3 nodes configured!')
 
     print('Configuring the GNS3 BGP routers...')
